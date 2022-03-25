@@ -1,0 +1,11 @@
+FROM golang:latest AS builder
+
+WORKDIR /go/src/app
+ADD hello-world.go /go/src/app
+
+RUN go build hello-world.go
+
+FROM alpine:3.5
+WORKDIR /go/src/app
+COPY --from=builder /go/src/app .
+ENTRYPOINT ./hello-world
